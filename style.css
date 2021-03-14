@@ -413,6 +413,6 @@ body {
   position: fixed;
   z-index: 10000;
 }
-#img.entered {
+#img.loaded.entered {
   opacity: 1;
 }

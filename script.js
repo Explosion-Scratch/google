@@ -1,5 +1,12 @@
 import * as _$ from "https://cdn.jsdelivr.net/npm/bijou.js@latest";
 console.log((new URLSearchParams(window.location.search)).get("q"))
+_$.observeMutations(document.documentElement, () => {
+	try {
+		document.querySelector("#popup-bg").onclick = () => document.querySelector("#popup-bg").remove();
+	} catch(e){
+		//Eat it.
+	}
+})
 if ((new URLSearchParams(window.location.search).get("q") || "").startsWith("!")) {
 	_$.getHTML(`https://cors.explosionscratc.repl.co/www.google.com/search?q=${escape((new URLSearchParams(window.location.search)).get("q").replace(/^!/, ""))}&btnI=Im+Feeling+Lucky`, () => {}).then(html => {
 		window.location.href = html.querySelector("a").href;

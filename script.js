@@ -2,13 +2,16 @@ import * as _$ from "https://cdn.jsdelivr.net/npm/bijou.js@latest";
 console.log((new URLSearchParams(window.location.search)).get("q"))
 _$.observeMutations(document.documentElement, () => {
 	try {
+		console.log("Mutation to document happened, attatching event listener to popup background")
 		document.querySelector("#popup-bg").onclick = () => document.querySelector("#popup-bg").remove();
 	} catch(e){
 		//Eat it.
 	}
 })
 if ((new URLSearchParams(window.location.search).get("q") || "").startsWith("!")) {
+	console.log("Fetching first search result to quickly redirect to it.")
 	_$.getHTML(`https://cors.explosionscratc.repl.co/www.google.com/search?q=${escape((new URLSearchParams(window.location.search)).get("q").replace(/^!/, ""))}&btnI=Im+Feeling+Lucky`, () => {}).then(html => {
+		console.log("Quick-redirecting to 1st search result")
 		window.location.href = html.querySelector("a").href;
 	});
 } else {
@@ -16,6 +19,7 @@ if ((new URLSearchParams(window.location.search).get("q") || "").startsWith("!")
 }
 window.addEventListener("keydown", konami(() => document.documentElement.classList.toggle("cool-mode")))
 function konami(callback) {
+		console.log("Key pressed, caching.")
     let kkeys = [];
     // up,up,down,down,left,right,left,right,B,A
     const konami = '38,38,40,40,37,39,37,39,66,65';
@@ -28,7 +32,9 @@ function konami(callback) {
     };
 }
 function run() {
+	console.log("Main loop started.")
 	if (new URLSearchParams(window.location.search).get("coolMode")) {
+		console.log("Transitioning to cool due to url queries.")
 		document.documentElement.classList.add("cool-mode");
 		document.head.appendChild(_$.createElement(`<meta name="theme-color" content="rgb(8, 196, 155)">`))
 	} else {
@@ -36,11 +42,13 @@ function run() {
 	}
 	let inp = document.getElementById("input");
 	let out = document.getElementById("results");
-	let dym_a = document.querySelector("#dym")
-	let urlMode = (new URLSearchParams(window.location.search)).get("mode") || "web"
+	let dym_a = document.querySelector("#dym");
+	let urlMode = (new URLSearchParams(window.location.search)).get("mode") || "web";
+	console.log("Set initial variables")
 	document.querySelector("[data-value='web']").checked = urlMode === "web" ? true : false;
 	document.querySelector("[data-value='images']").checked = urlMode === "images" ? true : false;
 	document.querySelector("[data-value='news']").checked = urlMode === "news" ? true : false;
+	console.log("Updating active radio fields")
 	document.querySelector(".switch-field").onclick = () => {
 		updateHistory();
 		ftch(`https://apis.explosionscratc.repl.co/google?q=${escape(inp.value)}`)
@@ -50,9 +58,11 @@ function run() {
 	var newsCache = JSON.parse(localStorage.getItem("news_cache")) || {};
 	inp.value = (new URLSearchParams(window.location.search)).get("q") || localStorage.getItem("input") || "";
 	if (inp.value === (new URLSearchParams(window.location.search)).get("q")) {
+		console.log("Auto searching due to query.")
 		ftch(`https://apis.explosionscratc.repl.co/google?q=${escape(inp.value)}`)
 	}
 	if ((new URLSearchParams(window.location.search)).get("darkMode") == 1) {
+		console.log("Transitioning to dark mode")
 		document.documentElement.classList.add("dark-mode");
 		updateHistory();
 	}
@@ -68,10 +78,12 @@ function run() {
 	}
 	let phdrs = ["Search something!", "Type anything here to search!", "This is a cool search engine", "Why aren't you typing stuff here?", "Try clicking the info button on search results!", "This took a long time to make", "Do you like the search engine?", "I also made a server to scrape google.", "Unlike google this doesn't track you!", "You can share links to searches!", "I worked hard to style this!"]
 	setInterval(() => {
+		console.log('Set new placeholder on search input.')
 		inp.setAttribute("placeholder", phdrs[Math.floor(Math.random() * phdrs.length)])
 	}, 3000);
 	let dark_btn = document.querySelector("button#dark-mode")
 	dark_btn.onclick = () => {
+		console.log("Toggling dark mode")
 		document.documentElement.classList.toggle("dark-mode");
 		updateHistory();
 	}
@@ -81,18 +93,22 @@ function run() {
 		document.querySelector(".top").style.width = `${Math.floor(width)}vw`;
 	}, 100)
 	window.onpopstate = (e) => {
+		console.log("Fetching due to popState.")
 		inp.value = (new URLSearchParams(window.location.search)).get("q");
 		ftch(`https://apis.explosionscratc.repl.co/google?q=${escape(inp.value)}`)
 	}
 	inp.addEventListener("keyup", (e) => {
 		if (key(e) && e.key !== "Enter") return;
 		if ((e.key === "Enter" && e.shiftKey)) {
+			console.log("Shift + enter was pressed, fetching first search result to redirect to...")
 			_$.getHTML(`https://cors.explosionscratc.repl.co/www.google.com/search?q=${escape(inp.value.replace(/^!/, ""))}&btnI=Im+Feeling+Lucky`, () => {}).then(html => {
+				console.log("Opening new tab with 1st search result for " + inp.value)
 				window.open(html.querySelector("a").href, "_blank")
 			});
 			return;
 		}
 		if (e.key === "Enter") {
+			console.log('Fetching due to enter key.')
 			ftch(`https://apis.explosionscratc.repl.co/google?q=${escape(inp.value)}`);
 		}
 		localStorage.setItem("input", inp.value)
@@ -112,13 +128,13 @@ function run() {
 			};
 			var mean = "No mean";
 			try {
-				console.log("Fetching mean");
+				console.log("Fetching did you mean");
 				mean = await didYouMean(inp.value);
 			} catch (e) {
 				console.warn("Error:")
 				console.info(e.stack)
 			}
-			console.log(`Mean:`, mean)
+			console.log(`Did you mean fetched:`, mean)
 			if (mean.mode !== "original") {
 				console.log(`New: ${mean.suggestion}, type: ${mean.mode}`);
 				dym_a.innerHTML = `${mean.mode === "dym" ? "Did you mean: " : mean.mode === "results_for" ? "Showing results for: " : ""} <a href="${`?q=${escape(mean.suggestion)}&darkMode=${+document.documentElement.classList.contains("dark-mode")}&mode=${mode()}`}">${_$.escapeHTML(mean.suggestion)}</a>`;
@@ -131,6 +147,7 @@ function run() {
 			}
 			updateHistory();
 			if (mode() == "images") {
+				console.log("Images mode.")
 				width = 0;
 				if (cache[`https://apis.explosionscratc.repl.co/image-search?q=${escape(inp.value)}`.toLowerCase()]) {
 					out.innerHTML = cache[`https://apis.explosionscratc.repl.co/image-search?q=${escape(inp.value)}`.toLowerCase()].map(i => {
@@ -159,14 +176,14 @@ function run() {
 				let widthInt = setInterval(() => {
 					width += (100 - width) / (Math.random() * 3 + 30);
 				}, 500)
-				console.log("News");
+				console.log("Fetching news.");
 				let newsUrl = `https://apis.explosionscratc.repl.co/news-search?q=${escape(inp.value.trim())}`.toLowerCase();
 				if (newsCache[newsUrl]) {
 					out.innerHTML = newsCache[newsUrl].map((i) => {
-						return `<li class="news"><h3><img src="https://www.google.com/s2/favicons?domain=${(new URL(i.web_url).hostname)}" id="icon">${i.abstract || "<i>No title</i>"}</h3><a id="url" href="${_$.escapeHTML(i.web_url)}">${_$.escapeHTML(new URL(i.web_url).hostname)}</a><br><br><span id="text">${_$.escapeHTML(i.lead_paragraph)}</span></li>`
+						return `<li class="news"><h3><img src="https://www.google.com/s2/favicons?domain=${(new URL(i.web_url).hostname)}" id="icon">${i.abstract || "<i>No title</i>"}</h3><a id="url" href="${_$.escapeHTML(i.web_url)}">${_$.escapeHTML(new URL(i.web_url).hostname)}</a><br><br><span id="text">${_$.escapeHTML(i.lead_paragraph)}</span></li>`;
+						width = 100
 					}).join("\n");
 					clearInterval(widthInt)
-					width = 100
 					return
 				}
 				fetch(newsUrl).then(res => res.json()).then(json => {
@@ -178,7 +195,6 @@ function run() {
 					}).join("\n");
 					localStorage.setItem('news_cache', JSON.stringify(newsCache))
 				})
-				width = 100;
 				return;
 			}
 			width = 0;
@@ -189,7 +205,7 @@ function run() {
 			let wolframUrl = `https://apis.explosionscratc.repl.co/quick-answer?q=${escape(inp.value.trim().toLowerCase())}`;
 			localStorage.setItem("wolfram_cache", JSON.stringify(wolframCache))
 			if (!wolframCache[wolframUrl]) {
-				console.info(`Fetching from wolfram`)
+				console.info(`Fetching quick answer from wolfram`)
 				fetch(wolframUrl).then(res => res.json()).then(answer => {
 					wolframCache[wolframUrl] = answer;
 					if (!answer.error && !document.querySelector(".wolfram")) {
@@ -197,7 +213,7 @@ function run() {
 					}
 				})
 			} else {
-				console.info(`Getting from cache`)
+				console.info(`Getting wolfram quick answer from cache`)
 				let answer = wolframCache[wolframUrl]
 				if (!answer.error && !document.querySelector(".wolfram")) {
 					out.innerHTML = `<li class="wolfram"><h4>${answer.text}</h4><br><span><i>Quick answer by Wolfram Alpha</i></span></li>\n${out.innerHTML}`
@@ -297,6 +313,7 @@ function run() {
 							theme: document.documentElement.classList.contains("dark-mode") ? "dark" : "light"
 						})
 						li.querySelector("#info_icon").onmouseup = (e) => {
+							console.log("Fetching info for URL in question.")
 							e.stopPropagation();
 							fetch(`https://apis.explosionscratc.repl.co/link-preview?q=${escape(li.querySelector("a").href)}`).then(res => res.json()).then(json => {
 								alert({

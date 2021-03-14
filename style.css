@@ -1,0 +1,418 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+:root {
+	--selection-color: rgb(223, 37, 74, .5);
+	--primary: crimson;
+	--secondary: #f93;
+	--light-secondary: #fb5;
+	--box-shadow: #0001;
+	--light-primary: rgb(238, 42, 81);
+	--dark-mode-light-primary: rgb(245, 107, 134);
+}
+.cool-mode * {
+	--selection-color: rgba(37, 186, 223, 0.5);
+	--primary: rgb(8, 196, 155);
+	--secondary: rgb(66, 214, 123);
+	--light-secondary: rgb(93, 233, 147);
+	--box-shadow: #0001;
+	--light-primary: rgb(47, 218, 181);
+	--dark-mode-light-primary: rgb(131, 255, 234);
+}
+* {
+	font-family: "Montserrat", sans-serif !important;
+}
+*:focus {
+	outline: none;
+}
+#dym {
+	padding: 5px;
+}
+ul#results::-webkit-scrollbar {
+	width: 3px;
+}
+ul#results::-webkit-scrollbar-thumb {
+	background: linear-gradient(var(--primary), var(--secondary));
+	border-radius: 1000px;
+}
+::selection {
+	background: var(--selection-color)
+}
+.top {
+	display: block;
+	position: absolute;
+	top: 0;
+	width: 0vw;
+	background: linear-gradient(to right, var(--primary), var(--secondary));
+	height: 5px;
+	margin: 0;
+	padding: 0;
+	left: 0;
+	transition: width .2s ease;
+}
+html {
+	background: white;
+	color: #111;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+body {
+	width: 80vw;
+	max-width: 700px;
+	height: 100vh;
+	font-family: "Montserrat", sans-serif
+}
+ul {
+	height: fit-content;
+	max-height: 70vh;
+	overflow: scroll;
+}
+ul > i {
+	display: block;
+	margin: 0 auto;
+	text-align: center;
+}
+ul > i > svg {
+	animation: rotate .5s ease infinite;
+}
+input {
+	border-radius: 20px 0 0 20px;
+	padding: 20px;
+	box-shadow: 3px 3px 10px 2px var(--box-shadow);
+	border: none;
+	transition: box-shadow .1s ease;
+	margin: 10px 0 10px 10px;
+}
+.inputs button {
+	cursor: pointer;
+	color: white;
+	display: inline-block;
+	padding: 20px;
+	border-radius: 0 20px 20px 0;
+	background: linear-gradient(var(--primary), var(--secondary));
+	border: none;
+	position: relative;
+	box-shadow: 3px 3px 10px 2px var(--box-shadow);
+}
+button:active {
+	background: linear-gradient(var(--light-primary), var(--light-secondary));
+	outline: none;
+}
+a {
+	color: var(--primary);
+	padding: 3px;
+	background-size: 200%;
+	background-position: -0% 0;
+	background-image: linear-gradient(to right, rgba(255,255,255,0) 50%, var(--primary) 50%, var(--light-secondary) 100%);
+	transition: background-position 0.3s ease;
+	border-radius: 3px;
+}
+a:hover {
+	background-position: -100% 0;
+  color: white;
+}
+@keyframes rotate {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg)
+	}
+}
+
+input:focus {
+	outline: none;
+	box-shadow: 4px 4px 15px 3px var(--box-shadow);
+}
+.inputs:focus-within button {
+	box-shadow: 4px 4px 15px 3px var(--box-shadow);
+}
+ul > li {
+	cursor: pointer;
+	list-style: none;
+	padding: 30px;
+	border-radius: 5px;
+	width: 80%;
+	display: block;
+	margin: 0 auto;
+	margin-bottom: 10px;
+	box-shadow: 2px 2px 10px 1px #00000015;
+	transition: background-color .3s ease;
+}
+ul > li > #text{
+	cursor: auto;
+	display: block;
+}
+ul li:hover {
+	background: #00000005;
+	box-shadow: 2px 2px 10px 1px #0002;
+}
+.inputs * {
+  box-sizing: border-box;
+}
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.inputs {
+  width: calc(fit-content + 10px);
+}
+.inputs * {
+	display: inline-block;
+}
+.inputs input {
+  width: 40vw;
+  min-width: 90px;
+}
+.inputs button {
+  width: 5vw;
+  min-width: 60px;
+  margin-right: 10px;
+}
+
+#results {
+  padding: 10px;
+  margin: 0;
+}
+#icon {
+  width: 15px;
+  position: relative;
+  top: 2px;
+  margin-right: 7px;
+}
+.dark-mode #icon {
+	filter: invert(100%) hue-rotate(180deg);
+}
+#popup {
+	--button-bg: linear-gradient(45deg, var(--primary), var(--secondary));
+	--button-bg-transparent: var(--secondary)4;
+	--button-bg-hover: linear-gradient(45deg, var(--light-primary), var(--light-secondary));
+}
+#popup {
+	width: 60vw !important;
+	max-width: 500px;
+}
+#info_image {
+	border-radius: 20px 0 20px 0;
+	border: 2px solid var(--secondary);
+	max-width: 30%;
+  margin-right: 10px;
+	display: block;
+	float: left;
+	object-fit: cover;
+	min-width: 50px;
+}
+#popup-text {
+  max-height: 75%;
+}
+#info_icon, #archive_icon {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  font-size: 22px;
+}
+#archive_icon {
+	position: absolute;
+	right: 45px;
+}
+ul#results > li {
+  position: relative;
+}
+
+.dark-mode *, .dark-mode {
+  background-color: #111 !important;
+  color: white;
+  overflow-x: hidden;
+}
+.dark-mode:focus-within button {
+	box-shadow: 2px 2px 10px #fff2;
+}
+.dark-mode input, .dark-mode button {
+  box-shadow: 2px 2px 6px #fff2;
+}
+.dark-mode button .iconify {
+  background: transparent;
+}
+#dark-mode {
+	box-shadow: none;
+}
+.dark-mode ul > li {
+	transition: box-shadow .3s ease;
+  box-shadow: 0px 0px 5px #fff5;
+  margin-bottom: 10px;
+}
+.dark-mode a {
+  color: var(--dark-mode-light-primary);
+}
+.dark-mode a:hover {
+  color: white;
+}
+.dark-mode #popup-bg {
+  background-color: transparent;
+}
+.dark-mode ul#results > li:hover {
+  box-shadow: 0px 0px 10px #fff5;
+}
+button#dark-mode {
+	position: fixed;
+	top: 15px;
+	right: 15px;
+	background: transparent;
+	border: none;
+	padding: 10px;
+}
+button .iconify {
+  background: transparent !important;
+}
+#popup-bg {
+	background: transparent !important;
+}
+.inputs {
+  display: block;
+  top: 20px;
+  z-index: 1;
+  width: fit-content;
+}
+.inputs input {
+  width: 40vw;
+  max-width: 600px;
+}
+.inputs button {
+  width: 5vw;
+  max-width: 60px;
+}
+@media screen and (max-width: 650px) {
+  .inputs > button {
+    display: none !important;
+  }
+  .inputs input {
+    border-radius: 20px;
+    width: 70vw !important;
+		margin: 0;
+  }
+}
+[data-tippy-root] {
+  word-wrap: break-word;
+}
+.dark-mode [data-tippy-root], .dark-mode [data-tippy-root] * {
+	background: #333 !important;
+	border-radius: 3px;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: 1px solid #222;
+  -webkit-text-fill-color: white;
+  -webkit-box-shadow: 0 0 0px 1000px #0000 inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+iframe {
+	border-radius: 10px;
+	box-shadow: 2px 2px 5px var(--box-shadow);
+	border: 3px solid var(--primary);
+	display: block;
+  margin: 10px auto;
+  width: 95%;
+}
+#img {
+	width: 300px;
+	height: 200px;
+	object-fit: cover;
+}
+select {
+	display: none;
+}
+.switch-field {
+  display: flex;
+  overflow: hidden;
+	margin-top: 6px;
+	margin-bottom: 6px;
+}
+
+.switch-field input {
+  position: absolute !important;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  width: 1px;
+  border: 0;
+  overflow: hidden;
+}
+
+.switch-field label {
+  background-color: #ccc1;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 14px;
+  line-height: 1;
+  text-align: center;
+  padding: 8px 16px;
+  margin-right: -1px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+}
+.dark-mode .switch-field label {
+	border: 2px solid rgba(255, 255, 255, 0.2);
+}
+.switch-field label:hover {
+  cursor: pointer;
+}
+
+.switch-field input:checked + label {
+  background: var(--primary) !important;
+	color: white;
+  box-shadow: none;
+}
+.dark-mode .switch-field label {
+	color: white !important;
+}
+.switch-field label:first-of-type {
+  border-radius: 4px 0 0 4px;
+}
+
+.switch-field label:last-of-type {
+  border-radius: 0 4px 4px 0;
+}
+audio {
+  width: 100%;
+}
+.inputs {
+  margin-top: 20px;
+}
+body {
+  overflow-x: visible;
+}
+.inputs, .inputs * {
+  overflow: hidden;;
+}
+#img.error {
+  display: none;
+}
+#img {
+  opacity: 0;
+  transition-duration: .5s;
+	margin: 0 auto;
+  transition-property: opacity, transform, width, height, top, left;
+}
+#img.loaded:hover {
+  cursor: zoom-in;
+}
+#img.clicked {
+  width: 80vw;
+  height: 80vh;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: fixed;
+  z-index: 10000;
+}
+#img.entered {
+  opacity: 1;
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Search engine</title>
+		<link rel="manifest" href="./manifest.json">
+		<script src="pwa.js"></script>
+		<script src="https://cdn.jsdelivr.net/gh/explosion-scratch/popup@v1.0.2/popup.js"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/explosion-scratch/popup@v1.0.2/popup.css">
+		<link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+		<script src="https://unpkg.com/mathjs/lib/browser/math.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.1/dist/lazyload.min.js"></script>
+		<script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+	<div class="top"></div>
+  <body>
+		<div class="inputs"><input type="text" id="input" placeholder="Search something!" autofocus><button><span class="iconify" data-icon="fluent:search-28-filled" data-inline="false"></span></button></div>
+		<div class="switch-field">
+			<input data-value="web" type="radio" id="radio-one" name="switch-one" value="yes" checked/>
+			<label for="radio-one">The web</label>
+			<input data-value="images" type="radio" id="radio-two" name="switch-one" value="no" />
+			<label for="radio-two">images</label>
+			<input data-value="news" type="radio" id="radio-three" name="switch-one" value="yes"/>
+			<label for="radio-three">News</label>
+		</div>
+		<div id="dym"></div>
+		<ul id="results"></ul>
+    <script src="script.js" type="module"></script>
+  </body>
+	<button id="dark-mode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path d="M11.93 2.3c-2.04-.5-4.02-.35-5.77.28c-.72.26-.91 1.22-.31 1.71A9.94 9.94 0 0 1 9.5 12a9.94 9.94 0 0 1-3.65 7.71c-.59.49-.42 1.45.31 1.7c1.04.38 2.17.59 3.34.59c6.05 0 10.85-5.38 9.87-11.6c-.61-3.92-3.59-7.16-7.44-8.1z" fill="#626262"/></svg></button>
+</html>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6"></script>
+<link rel="stylesheet" href="https://unpkg.com/tippy.js@6/themes/light.css">
+<script>
+	var lazyLoadInstance = new LazyLoad({
+  // Your custom settings go here
+});
+function updateImg(img){
+	img.classList.toggle("clicked");
+	if (img.classList.contains("clicked")){
+		document.body.appendChild(_$.createElement("<div id='popup-bg' onclick='document.querySelector(`.clicked`).classList.remove(`clicked`); this.remove()'></div>"));
+	} else {
+		document.querySelector("#popup-bg").remove();
+	}
+}
+</script>
